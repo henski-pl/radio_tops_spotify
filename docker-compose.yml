@@ -1,0 +1,17 @@
+version: '2.4'
+services:
+  python:
+    image: radio-tops-spotify:2.0
+    env_file:
+      - config.env
+    volumes:
+      - type: bind
+        source: "./playlist_ids.json"
+        target: "/app/playlist_ids.json"
+    depends_on:
+      - redis
+  redis:
+    image: redis
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - ./redis/:/data
